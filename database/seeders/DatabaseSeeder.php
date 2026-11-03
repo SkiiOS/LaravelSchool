@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Classroom;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,5 +26,19 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Student::factory(10) -> create();
+        // Classroom::factory(20) -> create();
+        Classroom::factory(10)
+            ->hasStudents(5)
+            ->create();
+
+        $subjects = Subject::factory(10)->create();
+
+        foreach ($subjects as $subject) {
+            Teacher::factory()->create([
+                'subject_id' => $subject->id,
+            ]);
+        }
     }
 }
